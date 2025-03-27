@@ -23,8 +23,23 @@ from pystyle import Center, Anime, Colors, Colorate
 from colorama import Fore 
 from pystyle import Add, Center, Anime, Colors, Colorate, Write, System
 from dotenv import load_dotenv
+from flask import Flask
 
 
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "I'm alive!"
+
+def run():
+    app.run(host="0.0.0.0", port=8080)
+
+def keep_alive():
+    thread = threading.Thread(target=run, daemon=True)
+    thread.start()
+    
+    
 program = "SMS SPAMMER"
 v = "0.1.2"
 OWNER = "BEALSTAR SHOP"
@@ -48,6 +63,7 @@ LIMIT = 50
 
 @bot.event
 async def on_ready():
+	keep_alive()
     print(f'✅ บอททำงานในชื่อ {bot.user}')
 
 @bot.slash_command(name="sms", description="Spam sms")
